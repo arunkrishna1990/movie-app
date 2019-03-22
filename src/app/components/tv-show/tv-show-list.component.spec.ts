@@ -8,6 +8,7 @@ import { MaterialModule } from 'src/app/shared/material.module';
 import { LoadTvShows } from 'src/app/core/store/tv-show';
 import { of, BehaviorSubject } from 'rxjs';
 import { By } from '@angular/platform-browser';
+import { MatDialog } from '@angular/material';
 
 describe('TvShowListComponent', () => {
   let component: TvShowListComponent;
@@ -50,7 +51,9 @@ describe('TvShowListComponent', () => {
     title: 'DummyTitle3 Some',
     genreIds: undefined
   }];
+  let mockDialog;
   beforeEach(async(() => {
+    mockDialog = jasmine.createSpyObj('MatDialog', ['open']);
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot(reducers),
@@ -60,6 +63,9 @@ describe('TvShowListComponent', () => {
         TvShowListComponent,
         MockComponent({ selector: 'app-card', inputs: ['cardImage', 'cardTitle', 'disableOverlay'], outputs: ['open'] })
       ],
+      providers: [{
+        provide: MatDialog, useValue: mockDialog
+      }]
     })
       .compileComponents();
   }));
@@ -90,6 +96,20 @@ describe('TvShowListComponent', () => {
         expect(appCards[i].attributes['ng-reflect-card-image']).toEqual(mockTvShows[i].posterPath);
         expect(appCards[i].attributes['ng-reflect-card-title']).toEqual(mockTvShows[i].title);
       }
+    });
+  });
+
+  describe('openDetails', () => {
+    it('should call dialog.open with the expected options', () => {
+      component.openDetails(mockTvShows[0]);
+
+      const expectedConfig = {
+        data: mockTvShows[0],
+        width: '500px',
+        height: '600px'
+      };
+
+      expect(mockDialog.open).toHaveBeenCalledWith(jasmine.any(Function), expectedConfig);
     });
   });
 });

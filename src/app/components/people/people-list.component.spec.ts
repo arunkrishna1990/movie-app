@@ -9,6 +9,7 @@ import { of } from 'rxjs';
 import { IPersonResponse, Person } from 'src/app/core/model/Person';
 import { LoadPeople } from 'src/app/core/store/people';
 import { By } from '@angular/platform-browser';
+import { MatDialog } from '@angular/material';
 
 describe('PeopleListComponent', () => {
   let component: PeopleListComponent;
@@ -168,7 +169,9 @@ describe('PeopleListComponent', () => {
     ]
   };
   const mockPeople = [new Person(mockHttpResponse.results[0]), new Person(mockHttpResponse.results[1])];
+  let mockDialog;
   beforeEach(async(() => {
+    mockDialog = jasmine.createSpyObj('MatDialog', ['open']);
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot(reducers),
@@ -177,7 +180,10 @@ describe('PeopleListComponent', () => {
       declarations: [
         PeopleListComponent,
         MockComponent({ selector: 'app-card', inputs: ['cardImage', 'cardTitle', 'disableOverlay'], outputs: ['open'] })
-      ]
+      ],
+      providers: [{
+        provide: MatDialog, useValue: mockDialog
+      }]
     })
       .compileComponents();
   }));
@@ -208,6 +214,20 @@ describe('PeopleListComponent', () => {
         expect(mockPeople[i].profilePath).toContain(appCards[i].attributes['ng-reflect-card-image']);
         expect(appCards[i].attributes['ng-reflect-card-title']).toEqual(mockPeople[i].name);
       }
+    });
+  });
+
+  describe('openDetails', () => {
+    it('should call dialog.open with the expected options', () => {
+      component.openDetails(mockPeople[0]);
+
+      const expectedConfig = {
+        data: mockPeople[0],
+        width: '500px',
+        height: '600px'
+      };
+
+      expect(mockDialog.open).toHaveBeenCalledWith(jasmine.any(Function), expectedConfig);
     });
   });
 });

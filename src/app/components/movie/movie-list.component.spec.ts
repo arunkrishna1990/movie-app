@@ -8,6 +8,7 @@ import { MockComponent } from 'ng2-mock-component';
 import { of } from 'rxjs';
 import { By } from '@angular/platform-browser';
 import { LoadMovies } from 'src/app/core/store/movie';
+import { MatDialog } from '@angular/material';
 
 describe('MovieListComponent', () => {
   let component: MovieListComponent;
@@ -50,7 +51,9 @@ describe('MovieListComponent', () => {
     title: 'DummyTitle3 Some',
     genreIds: undefined
   }];
+  let mockDialog;
   beforeEach(async(() => {
+    mockDialog = jasmine.createSpyObj('MatDialog', ['open']);
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot(reducers),
@@ -59,7 +62,10 @@ describe('MovieListComponent', () => {
       declarations: [
         MovieListComponent,
         MockComponent({ selector: 'app-card', inputs: ['cardImage', 'cardTitle', 'disableOverlay'], outputs: ['open'] })
-      ]
+      ],
+      providers: [{
+        provide: MatDialog, useValue: mockDialog
+      }]
     })
       .compileComponents();
   }));
@@ -90,6 +96,20 @@ describe('MovieListComponent', () => {
         expect(appCards[i].attributes['ng-reflect-card-image']).toEqual(mockMovies[i].posterPath);
         expect(appCards[i].attributes['ng-reflect-card-title']).toEqual(mockMovies[i].title);
       }
+    });
+  });
+
+  describe('openDetails', () => {
+    it('should call dialog.open with the expected options', () => {
+      component.openDetails(mockMovies[0]);
+
+      const expectedConfig = {
+        data: mockMovies[0],
+        width: '500px',
+        height: '600px'
+      };
+
+      expect(mockDialog.open).toHaveBeenCalledWith(jasmine.any(Function), expectedConfig);
     });
   });
 });
