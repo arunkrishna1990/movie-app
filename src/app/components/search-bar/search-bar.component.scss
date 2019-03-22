@@ -1,0 +1,45 @@
+:host {
+  nav {
+    font-size: 13px;
+    position: absolute;
+    z-index: 1;
+    background: rgba(0, 0, 0, 0.6);
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 60px;
+
+    .search-bar {
+      display: flex;
+      align-items: center;
+      flex-flow: row nowrap;
+      padding: 4px;
+      height: 40px;
+      color: #eee;
+      transition: background-color .2s,color .2s;
+      padding: 10px;
+      margin-left: 120px;
+
+      i,
+      input {
+        position: relative;
+        float: left;
+      }
+
+      input {
+        flex-grow: 1;
+        height: 100%;
+        outline: 0;
+        border: none;
+        color: #ccc;
+        background: #eee;
+        border-radius: 4px;
+        background: hsla(0,0%,100%,.08);
+        color: #eee;
+        transition: background-color .2s,color .2s;
+        margin-left: 30px;
+        padding-left: 15px;
+      }
+    }
+  }
+}

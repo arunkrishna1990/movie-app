@@ -1,0 +1,13 @@
+<aside class="sidebar" fxFlex="1 1000 100%">
+  <nav fxLayout="column">
+    <ul class="sidebar-items-wrapper">
+      <li [id]="item.id" class="sidebar-item" *ngFor="let item of sidebarItems"
+        [ngClass]="{'selected': selectedItemId === item.id}" (click)="open(item.id)">
+        <a [routerLink]="item.path">
+          <i class="fas {{item.icon}}"></i>
+          <span>{{item.title}}</span>
+        </a>
+      </li>
+    </ul>
+  </nav>
+</aside>

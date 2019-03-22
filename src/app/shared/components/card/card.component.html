@@ -1,0 +1,9 @@
+<li>
+  <div class="wrapper" (click)='open.emit($event)'>
+    <img [src]="cardImage" />
+    <div class="overlay" *ngIf="!disableOverlay">
+      <i class="fas fa-plus-circle"></i>
+    </div>
+  </div>
+  <span>{{cardTitle}}</span>
+</li>

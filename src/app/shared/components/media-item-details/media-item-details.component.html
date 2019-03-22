@@ -1,0 +1,26 @@
+<div class="wrapper">
+  <div class="header">
+    <h2>{{item.title}}</h2>
+    <img class="backdrop-image" [src]="item.backdropPath">
+  </div>
+  <div class="details-wrapper">
+    <img [src]="item.posterPath" />
+    <div class="details">
+      <div class="rating">
+        <mat-progress-spinner mode="determinate" [value]="item.voteAverage" diameter="50"
+          color="{{item.voteAverage > 50 ? 'accent' : 'warn'}}">
+        </mat-progress-spinner>
+        <span class="percentage">{{item.voteAverage}}<i class="fas fa-percentage"></i></span>
+      </div>
+      <div class="release-date">
+        <span>Release Date: {{item.releaseDate | date: 'mediumDate'}}</span>
+      </div>
+    </div>
+    <div class="overview">
+      <h3>Overview</h3>
+      <p>
+        {{item.overview}}
+      </p>
+    </div>
+  </div>
+</div>

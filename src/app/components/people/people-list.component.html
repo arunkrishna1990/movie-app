@@ -1,0 +1,5 @@
+<ul>
+  <app-card *ngFor="let person of people$ |async" [cardImage]="person.profilePath" [cardTitle]="person.name"
+  (open)="openDetails(person)">
+  </app-card>
+</ul>

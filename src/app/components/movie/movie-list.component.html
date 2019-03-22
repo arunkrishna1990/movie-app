@@ -1,0 +1,5 @@
+<ul>
+  <app-card *ngFor="let movie of movies$ | async" [cardImage]="movie.posterPath" [cardTitle]="movie.title"
+    (open)="openDetails(movie)">
+  </app-card>
+</ul>

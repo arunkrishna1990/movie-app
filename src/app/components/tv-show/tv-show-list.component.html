@@ -1,0 +1,5 @@
+<ul>
+  <app-card *ngFor="let tvShow of tvShows$ | async" [cardImage]="tvShow.posterPath" [cardTitle]="tvShow.title"
+    (open)="openDetails(tvShow)">
+  </app-card>
+</ul>
