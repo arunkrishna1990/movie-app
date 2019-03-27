@@ -30,7 +30,8 @@ export class SideBarComponent {
     this.router.events.pipe(
       filter(e => e instanceof NavigationEnd)
     ).subscribe((e: NavigationEnd) => {
-      this.selectedItemId = this.sidebarItems.find(item => e.url.includes(item.path)).id;
+      this.selectedItemId = this.sidebarItems.find(item => e.url.includes(item.path)
+      || e.urlAfterRedirects.includes(item.path)).id;
     });
   }
 }
